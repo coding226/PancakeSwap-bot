@@ -1,0 +1,43 @@
+<template class="task-template">
+  <section id="activeTrades-section" class="section js-section u-category-menu">
+    <header class="section-header">
+      <div class="section-wrapper">
+        <h1>
+          <svg class="section-icon"><use xlink:href="assets/img/icons.svg#icon-menu"></use></svg>
+          Active Trades
+        </h1>
+        <h3>Your active trades are displayed here</h3>
+
+        <p>Trades are considered active and will display in this menu if you have entered a valid token address and set at least one of the buy or sell limit fields for that token.</p>
+
+        <p>Add new tokens in the add token menu.</p>
+
+        <button class="bttn-material-flat bttn-danger" onclick="inactiveTrades.stopScanning()">STOP!</button>
+
+        <div id="timer-app"></div>
+      </div>
+
+      <!-- Rounded switch -->
+      <div style="float: right;margin:10px;">
+      <span style="margin:5px;vertical-align: -webkit-baseline-middle;">
+        Enable Executes:
+      </span>
+      <label class="switch">
+        <input type="checkbox" id="cbEnableExecute">
+        <span class="slider round"></span>
+      </label></div>
+    </header>
+
+    <div class="demo">
+      <div id="output-table-container" class="output-table-container">
+        
+      </div>
+    </div>  
+
+    <script type="text/javascript">
+      require('./renderer-process/trades/context-menu');
+      const inactiveTrades = require('./renderer-process/trades/inactiveTrades');
+    </script>
+
+  </section>
+</template>

@@ -1,0 +1,24 @@
+.output-table-container {
+    width: auto;
+    height: auto;
+}
+
+.tx-table-container {
+    width: auto;
+    height: auto;
+}
+
+.output-table {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+th {
+    width: 50px;
+    padding: 0.25rem;
+}
+
+td {
+    width: 50px;
+    padding: 0.15rem;
+}

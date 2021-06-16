@@ -1,0 +1,147 @@
+<template class="task-template">
+  <section id="addTrades-section" class="section js-section u-category-menu">
+    <header class="section-header">
+      <div class="section-wrapper">
+        <h1>
+          <svg class="section-icon"><use xlink:href="assets/img/icons.svg#icon-menu"></use></svg>
+          Add a New Trade Strategy
+        </h1>
+        <h3>Setup tokens here, along with buy and sell limit.</h3>
+      </div>
+    </header>
+
+    <div class="demo">
+      <div id="tradeSuccessMsg" class="section-header success-msg" style="display: none;">Successfully Saved!</div>
+      <div id="tradePanel" class="demo-wrapper">
+        <button id="application-menu-demo-toggle" class="js-container-target demo-toggle-button">Add Trade Strategy (click here to open/close form)
+        </button>
+        <div class="demo-box">
+          <p>Fill in the required fields</p>
+          <form name="addTradeForm" id="addTradeForm" class="token-form">
+            
+            <label for="tCode"><b>Output Token Code</b> (OT)<span style="color:red">*</span> - for display only</label>
+            <br>
+            <input class="inputBox" type="text" id="tCode" name="tCode" placeholder="Short Text">
+            <br>
+            <br>
+            <label for="tAddr"><b>Output Token Address</b> (OT)<span style="color:red">*</span></label>
+            <br>
+            <input class="inputBox" type="text" id="tAddr" name="tAddr" placeholder="0x..">
+            <br>
+            <br>
+            <label for="midAddr"><b>Mid-Route Token Address</b> (MRT) - 4+ TBB Feature</label>
+            <br>
+            <input class="inputBox" type="text" id="midAddr" name="midAddr" placeholder="0x.." disabled >
+            <br>
+            <br>
+            <label for="inputTokenCode"><b>Input Token Code</b> (IT)<span style="color:red">*</span> - for display only</label>
+            <br>
+            <input class="inputBox" type="text" id="inputTokenCode" name="inputTokenCode" placeholder="Short Text" value="ETH">
+            <br>
+            <br>
+            <label for="inputTokenAddress"><b>Input Token Address</b> (IT) - 4+ TBB Feature - leave blank for ETH by default</label>
+            <br>
+            <input class="inputBox" type="text" id="inputTokenAddress" name="inputTokenAddress" placeholder="0x..">
+            <br>
+            <br>
+            <label for="inputAmount"><b>Input Amount</b> (in ETH or Input Token Amount)<span style="color:red">*</span></label>
+            <br>
+            <input class="inputBox" type="text" id="inputAmount" name="inputAmount" placeholder="Decimal">
+            <br>
+            <br>
+            <label for="buyLim"><b>Buy Limit Price</b> (IT/OT units) - Buy will execute at or below this price<span style="color:green">*</span></label>
+            <br>
+            <input class="inputBox" type="text" id="buyLim" name="buyLim" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="sellLim"><b>Sell Limit Price</b> (IT/OT) - Sell will execute at or above this price<span style="color:green">*</span></label>
+            <br>
+            <input class="inputBox" type="text" id="sellLim" name="sellLim" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="stopLoss"><b>Stop Loss Price</b> (IT/OT) - Sell all tokens (except Tokens to Never Sell) once at or below this price</label>
+            <br>
+            <input class="inputBox" type="text" id="stopLoss" name="stopLoss" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="trailSell"><b>Trailing Sell</b> (%) - Price must rise this % above current price, then fall back down to trigger a sell. Good for high liquidity coins</label>
+            <br>
+            <input class="inputBox" type="text" id="trailSell" name="trailSell" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="trailBuy"><b>Trailing Buy</b> (%) - Price must lower this % below current price, then rise back up to trigger a buy. Good for high liquidity coins</label>
+            <br>
+            <input class="inputBox" type="text" id="trailBuy" name="trailBuy" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="moonbag"><b>Moonbag</b> (% to keep) - Will still sell this if a stoploss is triggered</label>
+            <br>
+            <input class="inputBox" type="text" id="moonbag" name="moonbag" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="neverSell"><b>Num Tokens to Never Sell</b> - always keep this amount for example if trading TBB</label>
+            <br>
+            <input class="inputBox" type="text" id="neverSell" name="neverSell" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="maxGas"><b>Max Gas</b> (gwei) - Don't post TX if calculated over this amount</label>
+            <br>
+            <input class="inputBox" type="text" id="maxGas" name="maxGas" placeholder="Decimal" value="200">
+            <br>
+            <br>
+            <label for="slip"><b>Slippage Tolerance</b> (In bips 50 = 0.50% - 1 bip = 0.01%)</label>
+            <br>
+            <input class="inputBox" type="text" id="slip" name="slip" placeholder="Decimal" value="50">
+            <br>
+            <br>
+            <label for="maxImpact"><b>Maximum Price Impact</b> (%)</label>
+            <br>
+            <input class="inputBox" type="text" id="maxImpact" name="maxImpact" placeholder="Decimal" value="5">
+            <br>
+            <br>
+            <label for="averageXScans"><b>WARNING!</b> We pull price feeds from the selected DEX SDK, feeds are not 100% accurate and averaging helps
+              to smooth these out. We suggest 5 scans and approximately 5-10 second delay between scans to prevent false positives.
+              <br><br><b>Number of Scans to Average</b> (set to 1 to disable and use instant price)</label>
+            <br>
+            <input class="inputBox" type="text" id="averageXScans" name="averageXScans" placeholder="Integer" value="5">
+            <br>
+            <br>
+            <label for="dontBuySellUntilFS"><b>Wait for Average Scans</b></label>
+            <br>
+            <input type="checkbox" id="dontBuySellUntilFS" name="dontBuySellUntilFS" checked="checked">
+            <br>
+            <br>
+            
+            <label for="checkBalOnlyStartup" style="display: none;"><b>Check Balance Only at Start</b> - This checks your ERC20 balances only on startup - only needed for some tokens</label>
+            <input style="display: none;" type="checkbox" id="checkBalOnlyStartup" name="checkBalOnlyStartup">
+            
+            <label for="supportBurn"><b>Support Fee on Transfer</b> (allow burn/fees when selling)</label>
+            <br>
+            <input type="checkbox" id="supportBurn" name="supportBurn">
+            <br>
+            <br>
+            <label for="keepTry"><b>Keep Trying on TX Fail</b></label>
+            <br>
+            <input type="checkbox" id="keepTry" name="keepTry">
+            <br>
+            <br>
+            <label for="needAppr"><b>Token Approval</b></label>
+            <br>
+            <input type="checkbox" id="needAppr" name="needAppr">
+            <br>
+            <br>
+            <input type="button" class="bttn-material-flat" id="formClearButton" value="Reset Form">
+
+            <input type="button" class="bttn-material-flat bttn-primary" id="formSubmitButton" value="Save" style="float: right;">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      require('./renderer-process/trades/context-menu')
+      require('./renderer-process/trades/submit-trade')
+    </script>
+
+  </section>
+</template>

@@ -1,0 +1,26 @@
+<template class="task-template">
+  <section id="transactions-section" class="section js-section u-category-menu">
+    <header class="section-header">
+      <div class="section-wrapper">
+        <h1>
+          <svg class="section-icon"><use xlink:href="assets/img/icons.svg#icon-menu"></use></svg>
+          Completed Transactions
+        </h1>
+        <h3>A log of all transactions posted to the blockchain will be logged here.</h3>
+
+        <p>You can clear it out from time to time, or keep the log.</p>
+      </div>
+    </header>
+
+    <div class="demo">
+      <div id="tx-table-container" class="tx-table-container">
+        
+      </div>
+    </div>  
+
+    <script type="text/javascript">
+      require('./renderer-process/trades/context-menu');
+    </script>
+
+  </section>
+</template>

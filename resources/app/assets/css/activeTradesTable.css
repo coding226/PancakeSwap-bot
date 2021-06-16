@@ -1,0 +1,23 @@
+th {
+    width: 25px;
+    height: auto;
+}
+
+td {
+    width: 100px;
+    height: auto;
+}
+
+.table-title {
+    text-align: center;
+}
+
+.output-table-container {
+    width: 100%;
+    height: auto;
+}
+
+.gray_row {
+    background-color: lightgray;
+    color: gray;
+}

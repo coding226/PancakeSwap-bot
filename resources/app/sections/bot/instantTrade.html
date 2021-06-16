@@ -1,0 +1,263 @@
+<template class="task-template">
+    <section id="instantTrades-section" class="section js-section u-category-menu">
+      <header class="section-header">
+        <div class="section-wrapper">
+          <h1>
+            <img class="section-icon" src="assets/img/tbb-bot.png" alt="logo">
+            Instant Trade
+          </h1>
+          <h3>Buy or Sell FAST</h3>
+  
+          <p>This area is designed for an instant buy/sell at market price.</p>
+  
+          <p>You can setup your trade for scanning with limits or other parameters, here we are trying to buy, sell or approve FAST!</p>
+        </div>
+        <!-- Rounded switch -->
+        <div style="float: right;margin:10px;">
+        <span style="margin:5px;vertical-align: -webkit-baseline-middle;">
+          Bypass Confirms:
+        </span>
+        <label class="switch">
+          <input type="checkbox" id="cbInstantBypassConfirm">
+          <span class="slider round"></span>
+        </label></div>
+      </header>
+  
+      <div class="demo">
+      <div style="text-align: center;">
+        <button class="bttn-material-flat bttn-success instant-execute instant-buy" onclick="buy()">BUY</button>
+        <button class="bttn-material-flat bttn-danger instant-execute instant-sell" onclick="sell()" style="margin:0 20px">SELL</button>
+        <button class="bttn-material-flat bttn-primary instant-execute instant-approve" onclick="approve()">Approve</button>
+
+      </div>
+        <div id="card-container-active" class="card-container">
+          <label for="passwordInstantTrade">Password</label>
+          <br>
+          <input class="inputBox" type="password" id="passwordInstantTrade" name="passwordInstantTrade" placeholder="Password">
+          <button class="bttn-material-flat" onclick="loadForm()" style="float:right">Load Form with Last</button>
+          <br>
+          <br>
+
+          <label for="tokenAddress-instant"><b>Token Address</b></label>
+            <select id="ddlTrades" style="margin-left:25px"><option value="0">---Select from Strategies ---</option></select>
+          <br>
+          <input class="inputBox" type="text" id="tokenAddress-instant" name="tokenAddress-instant" placeholder="0x.." >
+          <br>
+          <br>
+          <label for="inputAmount-instant"><b>Buy Input Amount</b> (in ETH / BNB)</label>
+          <br>
+          <input class="inputBox" type="number" id="inputAmount-instant" name="inputAmount-instant" placeholder="Number" value="1.0">
+          <br>
+          <br>
+          <label for="sellInputAmount-instant"><b>Sell Input Amount</b> (TKNs) - Leave blank to use Moonbag/Never Sell or to Sell All Tokens</label>
+          <br>
+          <input class="inputBox" type="number" id="sellInputAmount-instant" name="sellInputAmount-instant" placeholder="Number">
+          <br>
+          <br>
+          <label for="tokenCode-instant"><b>Token Code</b></label>
+          <br>
+          <input class="inputBox" type="text" id="tokenCode-instant" name="tokenCode-instant" placeholder="Ex: TBB" >
+          <br>
+          <br>
+
+          <div class="demo-wrapper">
+            <button class="js-container-target demo-toggle-button">Extended Settings (click here to open/close)
+            </button>
+            <div class="demo-box">
+              <p>Setup Settings For only this Instant Trade</p>
+              <label for="inputAddress-instant"><b>Input Token Address - Leave Blank for ETH/BNB</b></label>
+              <br>
+              <input class="inputBox" type="text" id="inputAddress-instant" name="inputAddress-instant" placeholder="0x.." >
+              <br>
+              <br>
+              <label for="inputCode-instant"><b>Input Token Code - For Display Only</b></label>
+              <br>
+              <input class="inputBox" type="text" id="inputCode-instant" name="inputCode-instant" placeholder="ETH" value="ETH" >
+              <br>
+              <br>
+              <label for="midRouteAddress-instant"><b>Mid Route Token Address - Leave Blank for No Midroute</b></label>
+              <br>
+              <input class="inputBox" type="text" id="midRouteAddress-instant" name="midRouteAddress-instant" placeholder="0x.." >
+              <br>
+              <br>
+              <label for="slip-instant"><b>Slippage Tolerance</b> (In bips 50 = 0.50% - 1 bip = 0.01%)</label>
+              <br>
+              <input class="inputBox" type="text" id="slip-instant" name="slip-instant" placeholder="Decimal" value="50">
+              <br>
+              <br>
+              <div style="display: none;">
+              <label for="maxPriceImpact-instant"><b>Max Price Impact</b> - Percentage - Over this amount TX will not post</label>
+              <br>
+              <input class="inputBox" type="text" id="maxPriceImpact-instant" name="maxPriceImpact-instant" placeholder="Decimal" value="10" value="10">
+              <br>
+              <br></div>
+              <label for="moonbagToKeep-instant"><b>Moonbag to Keep (%)</b> - Keep this % of tokens</label>
+              <br>
+              <input class="inputBox" type="number" id="moonbagToKeep-instant" name="moonbagToKeep-instant" placeholder="Decimal" value="0">
+              <br>
+              <br>
+              <label for="neverSellXTokens-instant"><b>Never Sell Tokens </b> - Number of Tokens to Never Sell</label>
+              <br>
+              <input class="inputBox" type="number" id="neverSellXTokens-instant" name="neverSellXTokens-instant" placeholder="Decimal" value="0">
+              <br>
+              <br>
+              <label for="defGas">Override Gas (Gwei) - Use instead of Etherscan detected gas</label>
+              <br>
+              <input class="inputBox" type="number" id="defGas-instant" name="defGas-instant" placeholder="Decimal">
+              <br>
+              <br>
+              <label for="supportBurn-instant"><b>Support Fee on Transfer</b> (allow burn/fees when selling)</label>
+              <br>
+              <input type="checkbox" id="supportBurn-instant" name="supportBurn-instant">
+              <br>
+              <br>
+              <label for="useLastNonce-instant"><b>Overwrite Last Nonce</b> (replaces a pending TX - for example to speed up with faster gas)</label>
+              <br>
+              <input type="checkbox" id="useLastNonce-instant" name="useLastNonce-instant">
+              <br>
+              <br>
+              <div style="display: none;">
+                <label for="gasSpeed-instant">Gas Speed - From Etherscan</label>
+                <br>
+                <select class="inputBox" name="gasSpeed-instant" id="gasSpeed-instant">
+                  <option value="fast">Fast</option>
+                  <option value="normal">Normal</option>
+                  <option value="slow">Slow</option>
+                </select>
+                <br>
+                <br>
+                <label for="gasAdd-instant">Gas to Add (Gwei) - Offset used from above Gas Speed</label>
+                <br>
+                <input class="inputBox" type="number" id="gasAdd-instant" name="gasAdd-instant" placeholder="Decimal">
+                <br>
+                <br>
+                <label for="gasMax-instant">Maximum Gas (gas limit) - If more than this amount is used, tx will fail</label>
+                <br>
+                <input class="inputBox" type="number" id="gasMax-instant" name="gasMax-instant" placeholder="Integer" value="500000">
+                <br>
+                <br>
+                <label for="waitTx-instant">Await Transaction (Minutes)</label>
+                <br>
+                <input class="inputBox" type="number" id="waitTx-instant" name="waitTx-instant" placeholder="Decimal" value="20">
+                <br>
+                <br>
+              </div>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>  
+
+      <div id="instantbuy-confirm-modal" class="modal-wallet">
+        <div class="modal-content" style="width: 50%;">
+          <div class="modal-header">
+            <input type="button" class="bttn-material-flat bttn-xs close-key" onclick="closeBuyConfirmModal()" value="Close &times;">
+            <div class="section-header">
+              <h2>Confirm Buy Price</h2>
+            </div>
+          </div>
+            <b>Input ETH or BNB:</b> <span id="instantBuyETH"></span>
+            <br>
+            <b>Price:</b> <span id="instantBuyPrice"></span> <span id="instantBuyTokenCodes"></span>
+            <br>
+            <b>Approx Tokens:</b> <span id="instantBuyTokens"></span>
+            <br>
+            <br><br>
+          <div class="modal-footer">
+            <button class="bttn-material-flat bttn-sm bttn-success instant-execute buy-now" onclick="instTrade.ExecuteBuy()">Buy Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="instantsell-confirm-modal" class="modal-wallet">
+        <div class="modal-content" style="width: 50%;">
+          <div class="modal-header">
+            <input type="button" class="bttn-material-flat bttn-xs close-key" onclick="closeSellConfirmModal()" value="Close &times;">
+            <div class="section-header">
+              <h2>Confirm Sell Price</h2>
+            </div>
+          </div>
+            <b>Input Tokens:</b> <span id="instantSellTokens"></span>
+            <br>
+            <b>Price:</b> <span id="instantSellPrice"></span> <span id="instantSellTokenCodes"></span>
+            <br>
+            <b>Approx ETH or BNB:</b> <span id="instantSellETH"></span>
+            <br>
+            <br><br>
+          <div class="modal-footer">
+            <button class="bttn-material-flat bttn-sm bttn-danger instant-execute sell-now" onclick="instTrade.ExecuteSell()">Sell Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="instantapp-confirm-modal" class="modal-wallet">
+        <div class="modal-content" style="width: 50%;">
+          <div class="modal-header">
+            <input type="button" class="bttn-material-flat bttn-xs close-key" onclick="closeApproveConfirmModal()" value="Close &times;">
+            <div class="section-header">
+              <h2>Confirm Approval</h2>
+            </div>
+          </div>
+            <p>Process Approval?</p>
+            <br><br>
+          <div class="modal-footer">
+            <button class="bttn-material-flat bttn-sm bttn-primary instant-execute approve-now" onclick="instTrade.ExecuteApprove()">Approve Now</button>
+          </div>
+        </div>
+      </div>
+  
+      <script type="text/javascript">
+        require('./renderer-process/trades/context-menu')
+        const instTrade = require('./renderer-process/bot/instant-trade');
+
+        function openBuyConfirmModal(){
+          $('#instantbuy-confirm-modal').show();
+        }
+        function closeBuyConfirmModal(){
+          $('#instantbuy-confirm-modal').hide();
+        }
+
+        function openSellConfirmModal(){
+          $('#instantsell-confirm-modal').show();
+        }
+        function closeSellConfirmModal(){
+          $('#instantsell-confirm-modal').hide();
+        }
+
+        function openApproveConfirmModal(){
+          $('#instantapp-confirm-modal').show();
+        }
+        function closeApproveConfirmModal(){
+          $('#instantapp-confirm-modal').hide();
+        }
+
+        function loadForm(){
+          instTrade.loadInstantTradeForm();
+        }
+        function buy(){
+          if($('#cbInstantBypassConfirm').is(':checked')){
+            instTrade.ExecuteBuy();
+          }else{
+            instTrade.ExecuteBuyConfirm();
+          }
+        }
+        function sell(){
+          if($('#cbInstantBypassConfirm').is(':checked')){
+            instTrade.ExecuteSell();
+          }else{
+            instTrade.ExecuteSellConfirm();
+          }
+        }
+        function approve(){
+          if($('#cbInstantBypassConfirm').is(':checked')){
+            instTrade.ExecuteApprove();
+          }else{
+            openApproveConfirmModal()
+          }
+        }
+      </script>
+  
+    </section>
+  </template>
+  

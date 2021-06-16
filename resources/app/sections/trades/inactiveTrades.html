@@ -1,0 +1,248 @@
+<template class="task-template">
+  <section id="inactiveTrades-section" class="section js-section u-category-menu">
+    <header class="section-header">
+      <div class="section-wrapper">
+        <h1>
+          <svg class="section-icon"><use xlink:href="assets/img/icons.svg#icon-menu"></use></svg>
+          Inactive Trades
+        </h1>
+
+        <h3>Inactive Trades are displayed here</h3>
+
+        <p>
+          Inactive trades are tokens that you have added to  your list, but are not set to scan.
+          <br>
+          <b>Note:</b> Be SURE you are not already scanning before pressing START. If not, it will start another thread and may cause multiple buy/sell triggers.
+        </p>
+        <button id="password-modal-button" class="bttn-material-flat bttn-success">START!</button>
+
+        <button id="delete-tokens-button" class="bttn-material-flat bttn-danger" style="float: right;">Delete Selected Tokens</button>
+      </div>
+    </header>
+
+    
+    <div id="demo" class="demo">
+      <div id="tradeSuccessMsgEdit" class="section-header success-msg" style="display: none;">Successfully Saved!</div>
+      <div id="card-container-inactive" class="card-container">
+
+      </div>
+    </div>  
+
+    <div id="password-modal" class="modal-wallet">
+      <div id="modal-content" class="modal-content" style="width: 50%;">
+        <div class="modal-header">
+          <input type="button" class="bttn-material-flat bttn-xs close-key" id="close-password" value="Close &times;">
+          <div class="section-header">
+            <h2>Decrypt Your Wallet Keys</h2>
+          </div>
+        </div>
+            <label for="startupPassword">Password</label>
+            <br>
+            <input class="inputBox" type="password" id="startupPassword" name="startupPassword" placeholder="Password">
+            <br>
+            <br>
+        <div class="modal-footer">
+          <button class="bttn-material-flat bttn-sm bttn-primary" onclick="iaTrades.startScanning()">Startup Scanning</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="tokenModal" class="modal-trade-details">
+      <div id="modal-content" class="modal-content">
+        <div class="modal-header">
+          
+          <input type="button" class="bttn-material-flat bttn-xs close-key" id="close-token-details" value="Close &times;">
+          <div class="section-header">
+            <h2>Token Details</h2>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form name="addTradeForm" id="addTradeForm" class="token-form">
+            <input id="hidTokenID-edit" type="hidden" value="0" />
+
+            <label for="tCode-edit"><b>Output Token Code</b> (OT)<span style="color:red">*</span> - for display only</label>
+            <br>
+            <input class="inputBox" type="text" id="tCode-edit" name="tCode-edit" placeholder="Short Text">
+            <br>
+            <br>
+            <label for="tAddr-edit"><b>Output Token Address</b> (OT)<span style="color:red">*</span></label>
+            <br>
+            <input class="inputBox" type="text" id="tAddr-edit" name="tAddr-edit" placeholder="0x..">
+            <br>
+            <br>
+            <label for="midAddr-edit"><b>Mid-Route Token Address</b> (MRT) - 4+ TBB Feature</label>
+            <br>
+            <input class="inputBox" type="text" id="midAddr-edit" name="midAddr-edit" placeholder="0x.." disabled >
+            <br>
+            <br>
+            <label for="inputTokenCode-edit"><b>Input Token Code</b> (IT)<span style="color:red">*</span> - for display only</label>
+            <br>
+            <input class="inputBox" type="text" id="inputTokenCode-edit" name="inputTokenCode-edit" placeholder="Short Text" value="ETH">
+            <br>
+            <br>
+            <label for="inputTokenAddress-edit"><b>Input Token Address</b> (IT) - 4+ TBB Feature - leave blank for ETH by default</label>
+            <br>
+            <input class="inputBox" type="text" id="inputTokenAddress-edit" name="inputTokenAddress-edit" placeholder="0x..">
+            <br>
+            <br>
+            <label for="inputAmount-edit"><b>Input Amount</b> (in ETH or Input Token Amount)<span style="color:red">*</span></label>
+            <br>
+            <input class="inputBox" type="text" id="inputAmount-edit" name="inputAmount-edit" placeholder="Decimal">
+            <br>
+            <br>
+            <label for="buyLim-edit"><b>Buy Limit Price</b> (IT/OT units) - Buy will execute at or below this price<span style="color:green">*</span></label>
+            <br>
+            <input class="inputBox" type="text" id="buyLim-edit" name="buyLim-edit" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="sellLim-edit"><b>Sell Limit Price</b> (IT/OT) - Sell will execute at or above this price<span style="color:green">*</span></label>
+            <br>
+            <input class="inputBox" type="text" id="sellLim-edit" name="sellLim-edit" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="stopLoss-edit"><b>Stop Loss Price</b> (IT/OT) - Sell all tokens (except Tokens to Never Sell) once at or below this price</label>
+            <br>
+            <input class="inputBox" type="text" id="stopLoss-edit" name="stopLoss-edit" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="trailSell-edit"><b>Trailing Sell</b> (%) - Price must rise this % above current price, then fall back down to trigger a sell. Good for high liquidity coins</label>
+            <br>
+            <input class="inputBox" type="text" id="trailSell-edit" name="trailSell-edit" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="trailBuy-edit"><b>Trailing Buy</b> (%) - Price must lower this % below current price, then rise back up to trigger a buy. Good for high liquidity coins</label>
+            <br>
+            <input class="inputBox" type="text" id="trailBuy-edit" name="trailBuy-edit" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="moonbag-edit"><b>Moonbag</b> (% to keep) - Will still sell this if a stoploss is triggered</label>
+            <br>
+            <input class="inputBox" type="text" id="moonbag-edit" name="moonbag-edit" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="neverSell-edit"><b>Num Tokens to Never Sell</b> - always keep this amount for example if trading TBB</label>
+            <br>
+            <input class="inputBox" type="text" id="neverSell-edit" name="neverSell-edit" placeholder="Decimal" value="0">
+            <br>
+            <br>
+            <label for="maxGas-edit"><b>Max Gas</b> (gwei) - Don't post TX if calculated over this amount</label>
+            <br>
+            <input class="inputBox" type="text" id="maxGas-edit" name="maxGas-edit" placeholder="Decimal" value="200">
+            <br>
+            <br>
+            <label for="slip-edit"><b>Slippage Tolerance</b> (In bips 50 = 0.50% - 1 bip = 0.01%)</label>
+            <br>
+            <input class="inputBox" type="text" id="slip-edit" name="slip-edit" placeholder="Decimal" value="50">
+            <br>
+            <br>
+            <label for="maxImpact-edit"><b>Maximum Price Impact</b> (%)</label>
+            <br>
+            <input class="inputBox" type="text" id="maxImpact-edit" name="maxImpact-edit" placeholder="Decimal" value="5">
+            <br>
+            <br>
+            <label for="averageXScans-edit"><b>WARNING!</b> We pull price feeds from the selected DEX SDK, feeds are not 100% accurate and averaging helps
+              to smooth these out. We suggest 5 scans and approximately 5-10 second delay between scans to prevent false positives.
+              <br><br><b>Number of Scans to Average</b> (set to 1 to disable and use instant price)</label>
+            <br>
+            <input class="inputBox" type="text" id="averageXScans-edit" name="averageXScans-edit" placeholder="Integer" value="5">
+            <br>
+            <br>
+            <label for="dontBuySellUntilFS-edit"><b>Wait for Average Scans</b></label>
+            <br>
+            <input type="checkbox" id="dontBuySellUntilFS-edit" name="dontBuySellUntilFS-edit" checked="checked">
+            <br>
+            <br>
+
+            <label style="display: none;" for="checkBalOnlyStartup-edit"><b>Check Balance Only at Start</b> - This checks your ERC20 balances only on startup - only needed for some tokens</label>
+            <input style="display: none;" type="checkbox" id="checkBalOnlyStartup-edit" name="checkBalOnlyStartup-edit">
+
+            <label for="supportBurn-edit"><b>Support Fee on Transfer</b> (allow burn/fees when selling)</label>
+            <br>
+            <input type="checkbox" id="supportBurn-edit" name="supportBurn-edit">
+            <br>
+            <br>
+            <label for="keepTry-edit"><b>Keep Trying on TX Fail</b></label>
+            <br>
+            <input type="checkbox" id="keepTry-edit" name="keepTry-edit">
+            <br>
+            <br>
+            <label for="needAppr-edit"><b>Token Approval</b></label>
+            <br>
+            <input type="checkbox" id="needAppr-edit" name="needAppr-edit">
+            <br>
+            <br>
+
+            <input type="button" class="bttn-material-flat" id="formClearButton-edit" value="Reset Form">
+
+            <input type="button" class="bttn-material-flat bttn-primary" id="formSubmitButton-edit" value="Save" style="float: right;">
+          </form>
+        </div>
+        <div class="modal-footer">
+          
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      // const bytenode = require('bytenode');
+      // let compiledProcFilename = bytenode.compileFile({
+      //   filename: './bot-functions/processor.js',
+      //   output: './bot-functions/processor.jsc'
+      // });
+      // let compiledBuySellFilename = bytenode.compileFile({
+      //   filename: './bot-functions/buysell.js',
+      //   output: './bot-functions/buysell.jsc'
+      // });
+
+      
+      const notiBox = require('./assets/notiBox')
+      const iaTrades = require('./renderer-process/trades/inactiveTrades');
+
+      const passwordModal = document.getElementById("password-modal")
+      const openPasswordModalButton = document.getElementById("password-modal-button")
+      const closePasswordButton = document.getElementById("close-password");
+      const sp = document.getElementById("startupPassword");
+      const deleteTokensButton = document.getElementById("delete-tokens-button")
+
+      const tokenDetails = document.getElementById('token-inactive-modal-click')
+      const tokenModal = document.getElementById('tokenModal')
+
+      const closeTokenButton = document.getElementById("close-token-details");
+
+      /*tokenDetails.addEventListener('click', () => {
+        tokenModal.style.display = "block"
+      });*/
+
+      openPasswordModalButton.onclick = function() {
+        if($('input[name="activeBox"]').is(':checked')){
+          setTimeout(function() { sp.focus() }, 20);
+          sp.value = "";
+          passwordModal.style.display = "block";
+        }
+        else{
+          notiBox.showNotification('Select Token,You must select at least one token with the checkboxes to start!');
+        }
+      }
+
+      closePasswordButton.onclick = function() {
+        passwordModal.style.display = "none";
+      }
+      closeTokenButton.onclick = function() {
+        $('#tokenModal').hide();
+      }
+
+      deleteTokensButton.onclick = function() {
+        iaTrades.deleteTokens();
+        iaTrades.refreshInactiveTrades();
+      }
+
+      sp.addEventListener("keydown", function (e) {
+          if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
+            iaTrades.startScanning();
+          }
+      });
+      
+      iaTrades.refreshInactiveTrades();
+    </script>
+  </section>
+</template>

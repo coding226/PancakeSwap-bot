@@ -1,0 +1,214 @@
+<template class="task-template">
+    <section id="mempool-section" class="section js-section u-category-menu">
+      <header class="section-header">
+        <div class="section-wrapper">
+            <h1>
+                <img class="section-icon" src="assets/img/programming.png" alt="logo">
+                Mempool Scans
+              </h1>
+              <h3>The fastest way to snipe a listing</h3>
+      
+              <p>Mempool scanning will listen for a liquidity add event, and put your buy transaction just after!</p>
+      
+              <p>Please note, this is an 3 LP-UNI+ (0.4 LP-UNI on BSC) or 3 LP-PCS feature!</p>
+              
+              <p>LP-UNI tokens are for providing TBB-ETH Liquidity on Uniswap. LP-PCS tokens are for providing bTBB-BNB on Pancakeswap.</p>
+
+              <p>You can also use with 8 TBB (0.8 TBB BSC) or 8 bTBB if you would like to pay a 5% TX fee.</p>
+
+              <p><b>WARNING!!!</b> You MUST have a fast node to reliably use mempool scanning. If your WSS link is blank, 
+                you are using the public node, it can be used for testing purposes but should not be used for production!</p>
+        </div>
+      </header>
+      
+      <div class="section-wrapper">
+        
+        <label for="tokenCode-mempool"><b>Token Code</b> (for display only)</label>
+        <br>
+        <input class="inputBox" type="text" id="tokenCode-mempool" name="tokenCode-mempool" placeholder="Text" disabled>
+        <br>
+        <br>
+        <label for="tokenAddress-mempool"><b>Token Address</b></label>
+        <br>
+        <input class="inputBox" type="text" id="tokenAddress-mempool" name="tokenAddress-mempool" placeholder="0x.." disabled>
+        <br>
+        <br>
+        <label for="inputAmount-mempool"><b>Input Amount</b> (in ETH or BNB)</label>
+        <br>
+        <input class="inputBox" type="number" id="inputAmount-mempool" name="inputAmount-mempool" placeholder="Number" value="1.0" disabled>
+        <br>
+        <br>
+        <div style="display: none;">
+          <label for="buyLimitPrice-mempool"><b>Buy Limit Price</b> (ETH/TKN) or (BNB/TKN)</label>
+          <br>
+          <input class="inputBox" type="number" id="buyLimitPrice-mempool" name="buyLimitPrice-mempool" placeholder="Number" value="0.01" disabled>
+          <br>
+          <br>
+        </div>
+        <label for="buyTokensOutOverride-mempool"><b>Buy Tokens Amount</b> (in Tokens) - Before Slippage - CANNOT BE BLANK!!</label>
+        <br>
+        <input class="inputBox" type="number" id="buyTokensOutOverride-mempool" name="buyTokensOutOverride-mempool" placeholder="Number" disabled>
+        <br>
+        <br>
+        <div style="display: none;">
+          <label for="sellLimitPrice-mempool"><b>Sell Limit Price</b> (ETH/TKN) or (BNB/TKN)</label>
+          <br>
+          <input class="inputBox" type="number" id="sellLimitPrice-mempool" name="sellLimitPrice-mempool" placeholder="Number" value="0" disabled>
+          <br>
+          <br>
+        </div>
+        <label for="weiOffset-mempool"><b>Wei Offset</b> - <b>ETH:</b> Set to 0 for fastest but not guaranteed snipe - Set to 1 for guaranteed snipe but later to be mined. 
+          <b>BSC:</b> Always use 0 offset to make sure your tx isn't underpriced.</label>
+        <br>
+        <input class="inputBox" type="number" id="weiOffset-mempool" name="weiOffset-mempool" placeholder="Number" value="1" disabled>
+        <br>
+        <br>
+        <label for="slippageTolerance-mempool"><b>Slippage Tolerance</b> (In bips 50 = 0.50% - 1500 = 15% - 1 bip = 0.01%) - 
+          Can be 0 if you set your Buy Token Amount to be the Exact minimum you want out</label>
+        <br>
+        <input class="inputBox" type="number" id="slippageTolerance-mempool" name="slippageTolerance-mempool" placeholder="Number" value="1500" disabled>
+        <button class="bttn-material-flat" onclick="loadMempoolForm()" style="float:right">Load Form with Last</button>
+        <br>
+        <br>
+
+      </div>
+      <div class="demo">
+        <div id="card-container-active" class="card-container" style="text-align: center;">
+          <input type="button" id="btnMempoolStart" class="bttn-material-flat" onclick="chooseMempoolModal()" value="MEMPOOL START!!" disabled>
+        </div>
+      </div>  
+
+      <div id="mempool-modal" class="modal-wallet">
+        <div class="modal-content" style="width: 100%;">
+          <div class="modal-header">
+            
+            <div class="section-header">
+              <h2>MEMPOOL SCANNING!</h2>
+            </div>
+          </div>
+              <div>
+                <div style="width: 25%; float: left;">
+                  <img id="imgRadar" src="assets/img/radar.gif" style="width: 100%;display: none;"/>
+                </div>
+                <div style="float: right; width: 75%;">
+                  <textarea id="mempoolOutput" rows="25" style="width: 100%; max-width: 100%;">Starting up...
+</textarea>
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+
+          <div class="modal-footer">
+            <button class="bttn-material-flat bttn-sm bttn-danger" onclick="stopMem()">ABORT!!</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="mempool-password-modal" class="modal-wallet">
+        <div class="modal-content" style="width: 50%;">
+          <div class="modal-header">
+            <input type="button" class="bttn-material-flat bttn-xs close-key" onclick="closeMempoolPasswordModal()" value="Close &times;">
+            <div class="section-header">
+              <h2>Decrypt Your Wallet Keys</h2>
+            </div>
+          </div>
+              <label for="startupMempoolPassword">Password</label>
+              <br>
+              <input class="inputBox" type="password" id="startupMempoolPassword" name="startupMempoolPassword" placeholder="Password">
+              <br>
+              <br>
+          <div class="modal-footer">
+            <button class="bttn-material-flat bttn-sm bttn-primary" onclick="getPasswordAndLaunchMempool()">Startup Scanning</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="mempool-fee-modal" class="modal-wallet">
+        <div class="modal-content" style="width: 80%;">
+          <div class="modal-header">
+            <input type="button" class="bttn-material-flat bttn-xs close-key" onclick="closeMempoolFeesModal()" value="Close &times;">
+            <div class="section-header">
+              <h2>Agree to Mempool Fee</h2>
+            </div>
+          </div>
+              We have detected that you are using mempool with 8 TBB - Keep in mind that 3 LP tokens have NO fees!
+              <br><br>
+              <b>PLEASE NOTE:</b> Fees are at startup and not refunded if you don't get a successful snipe or want to change your settings after startup.
+              <br><br>
+              Would you like to continue and send <span id="mempoolFeeAmount"></span> ETH (5%) tx fee to begin scanning mempool?
+              <br><br>
+          <div class="modal-footer">
+            <button class="bttn-material-flat bttn-sm bttn-primary" onclick="openMempoolPasswordModal()">Continue &rarr;</button>
+          </div>
+        </div>
+      </div>
+  
+      <script type="text/javascript">
+        require('./renderer-process/trades/context-menu')
+
+        const mempool = require('./renderer-process/bot/mempool');
+        function chooseMempoolModal(){
+          if(localStorage['memPool'] == 'true'){
+            openMempoolPasswordModal();
+          }else if(localStorage['highTier'] == 'true'){
+            openMempoolFeesModal();
+          }
+        }
+
+        function loadMempoolForm(){
+          mempool.loadMemPoolData();
+        }
+        function openMempoolPasswordModal(){
+          $('#mempool-password-modal').show();
+          $('#mempool-fee-modal').hide();
+          $('#startupMempoolPassword').focus();
+        }
+        function closeMempoolPasswordModal(){
+          $('#mempool-password-modal').hide();
+        }
+
+        function openMempoolFeesModal(){
+          var feeAmt = $('#inputAmount-mempool').val() * 0.05;
+          feeAmt = (feeAmt.toFixed(8) * 1).toString();
+          $('#mempoolFeeAmount').text(feeAmt);
+          $('#mempool-fee-modal').show();
+        }
+        function closeMempoolFeesModal(){
+          $('#mempool-fee-modal').hide();
+        }
+
+        $('#startupMempoolPassword').on("keydown", function (e) {
+          if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
+            getPasswordAndLaunchMempool();
+          }
+        });
+        
+        function getPasswordAndLaunchMempool(){
+          $('#mempool-password-modal').hide();
+          $('#mempool-fee-modal').hide();
+
+          var thisSnipeToken = 
+          {
+            tokenCode: $('#tokenCode-mempool').val(),
+            tokenAddress: $('#tokenAddress-mempool').val(),
+            inputAmount: $('#inputAmount-mempool').val(),
+            buyLimitPrice: $('#buyLimitPrice-mempool').val(),
+            buyTokensOutOverride: $('#buyTokensOutOverride-mempool').val(),
+            sellLimitPrice: $('#sellLimitPrice-mempool').val(),
+            weiOffset: $('#weiOffset-mempool').val(),
+            slippageTolerance: $('#slippageTolerance-mempool').val(),
+          };
+
+          localStorage["mempoolSnipeToken"] = JSON.stringify(thisSnipeToken);
+
+          mempool.startMempoolScanning(thisSnipeToken, $('#startupMempoolPassword').val());
+          $('#mempool-modal').show();
+        }
+
+        function stopMem(){
+          mempool.stopMempoolScanning();
+        }
+      </script>
+  
+    </section>
+  </template>
+  

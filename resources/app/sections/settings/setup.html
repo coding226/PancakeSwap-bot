@@ -1,0 +1,216 @@
+<template class="task-template">
+    <section id="setup-section" class="section js-section u-category-menu">
+      <header class="section-header">
+        <div class="section-wrapper">
+          <h1>
+            <img class="section-icon" src="assets/img/Windows_Settings_app_icon.png" alt="logo">
+            Personal Settings
+          </h1>
+          <h3>Use this page to save your preferences and personal settings.</h3>
+  
+          <p>
+            In order to use the bot, An Infura and/or Alchemy API key must be input.
+            You must also input your wallet keys in order to make transactions through the bot.
+          </p>
+  
+          <p>You can also set an API quorum, minimum ETH amount to keep, and maximum gas prices.</p>
+        </div>
+      </header>
+      
+      <div class="section-wrapper">
+        <div class="demo">
+          <a href="#" class="button-text" id="setup-button">
+          <div class="setup-button-container">
+            Trade Settings
+          </div></a>
+          <a href="#" class="button-text" id="wallet-button">
+          <div class="setup-button-container">
+            Wallet Keys
+          </div></a>
+        </div>  
+      </div>
+
+      <div id="setup-modal" class="modal-setup">
+        <div id="modal-content" class="modal-content">
+          <div class="modal-header">
+            <input type="button" class="bttn-material-flat bttn-xs close-key" id="close-setup" value="Close &times;">
+            <div class="section-header">
+              <h2>Trade Settings</h2>
+              <p>Adjust your trade settings here. By submitting settings, your saved settings are overwritten.</p>
+            </div>
+            <div id="settingsSuccessMsg" class="section-header success-msg" style="display: none;">Successfully Saved!</div>
+          </div>
+          <form name="setup-form" id="setup-form" class="setup-form">
+            <label for="scanDelayMS">Scan Delay Rate (ms) - 1000ms = 1 second</label>
+              <br>
+              <input class="inputBox" type="text" id="scanDelayMS" name="scanDelayMS" placeholder="Integer" value="10000">
+              <br>
+              <br>
+              <label for="infuraAPI">Infura ID *</label>
+              <br>
+              <input class="inputBox" type="text" id="infuraAPI" name="infuraAPI" placeholder="Text">
+              <br>
+              <br>
+              <label for="alchemyAPI">Alchemy ID *</label>
+              <br>
+              <input class="inputBox" type="text" id="alchemyAPI" name="alchemyAPI" placeholder="Text">
+              <br>
+              <br>
+              <label for="etherAPI">Etherscan ID - needed for gas estimation</label>
+              <br>
+              <input class="inputBox" type="text" id="etherAPI" name="etherAPI" placeholder="Text">
+              <br>
+              <br>
+              <label for="poktAPI">Pocket ID *</label>
+              <br>
+              <input class="inputBox" type="text" id="poktAPI" name="poktAPI" placeholder="Text">
+              <br>
+              <br>
+              <label for="customHTTP">Custom HTTP Provider - instead of above Infura/Alchemy/Pokt keys</label>
+              <br>
+              <input class="inputBox" type="text" id="customHTTP" name="customHTTP" placeholder="https://link">
+              <br>
+              <br>
+              <label for="customWSS">Custom WSS Provider - for Mempool</label>
+              <br>
+              <input class="inputBox" type="text" id="customWSS" name="customWSS" placeholder="wss://link">
+              <br>
+              <br>
+              <label for="quorum">API Quorum</label>
+              <br>
+              <input class="inputBox" type="number" id="quorum" name="quorum" placeholder="Integer" min="1" max="3" value="1">
+              <br>
+              <br>
+              <label for="network">Network</label>
+              <br>
+              <select class="inputBox" name="network" id="network">
+                <option value="eth-ropsten">ETH Ropsten</option>
+                <option value="eth-mainnet">ETH Mainnet</option>
+                <option value="bsc-mainnet">BSC Mainnet</option>
+              </select>
+              <br>
+              <br>
+              <label for="dex">DEX</label>
+              <br>
+              <select class="inputBox" name="dex" id="dex">
+                <option value="uniswap">Uniswap</option>
+                <option value="sushiswap">Sushiswap</option>
+                <!--<option value="streetswap">Streetswap</option>-->
+                <option value="pancakeswap">Pancakeswap v1</option>
+                <option value="pancakeswapv2">Pancakeswap v2</option>
+              </select>
+              <br>
+              <br>
+              <label for="defGas">Default Gas (Gwei) - Used for BSC, Testnets or if Etherscan can't get valid data on ETH Mainnet</label>
+              <br>
+              <input class="inputBox" type="number" id="defGas" name="defGas" placeholder="20" value="20">
+              <br>
+              <br>
+              <label for="gasSpeed">Gas Speed - From Etherscan</label>
+              <br>
+              <select class="inputBox" name="gasSpeed" id="gasSpeed">
+                <option value="fast">Fast</option>
+                <option value="normal">Normal</option>
+                <option value="slow">Slow</option>
+              </select>
+              <br>
+              <br>
+              <label for="gasAdd">Gas to Add (Gwei) - Offset used from above Gas Speed</label>
+              <br>
+              <input class="inputBox" type="number" id="gasAdd" name="gasAdd" placeholder="Decimal" value="2">
+              <br>
+              <br>
+              <label for="gasMax">Maximum Gas (gas limit) - If more than this amount is used, tx will fail</label>
+              <br>
+              <input class="inputBox" type="number" id="gasMax" name="gasMax" placeholder="Integer" value="500000">
+              <br>
+              <br>
+              <label for="minEth">Minimum ETH to Keep</label>
+              <br>
+              <input class="inputBox" type="number" id="minEth" name="minEth" placeholder="Decimal" value="0.1">
+              <br>
+              <br>
+              <label for="waitTx">Await Transaction (Minutes)</label>
+              <br>
+              <input class="inputBox" type="number" id="waitTx" name="waitTx" placeholder="Decimal" value="20">
+              <br>
+              <br>
+              <label for="ethGas">Etherscan Gas API Link - DO NOT CHANGE THIS UNLESS YOU ARE SURE!</label>
+              <br>
+              <input class="inputBox" type="text" id="etherscanGas" name="etherscanGas" placeholder="https://link" value="https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=">
+              <br>
+              <br>
+              <label for="sendAppr">Send Approval Amount - DO NOT CHANGE THIS UNLESS YOU ARE SURE!</label>
+              <br>
+              <input class="inputBox" type="text" id="sendAppr" name="sendAppr" placeholder="Hexidecimal" value="0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF">
+              <br>
+              <br>
+          </form>
+          <div class="modal-footer">
+            <button class="bttn-material-flat bttn-primary" id="submit-setup-button">Save Settings</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="keys-modal" class="modal-wallet">
+        <div id="modal-content" class="modal-content">
+          <div class="modal-header">
+            <input type="button" class="bttn-material-flat bttn-xs close-key" id="close-key" value="Close &times;">
+            <div class="section-header">
+              <h2>Wallet Keys</h2>
+              <p>Import your private key here. By submitting key, your saved keys are overwritten. Your public address is generated from your private key.</p>
+              <p>With your password, your private key is encrypted and stored. Each bot start you will need to only enter this password.</p>
+            </div>
+            <div id="keySuccessMsg" class="section-header success-msg" style="display: none;">Successfully Saved!</div>
+          </div>
+          <form name="keysForm" id="keys-form" class="keys-form">
+            <label for="pubKey">Public Key: <span id="pubKey"></span></label>
+              <br>
+              <br>
+              <label for="privKey">Private Key<span style="color: red;">*</span></label> <label style="float: right;"><input id="privateKeyPass" class="checkBox" type="checkbox">Show Private Key</label>
+              <br>
+              <input class="inputBox" type="password" id="privKey" name="privKey" placeholder="0x.." style="width: 100%;">
+              
+              <br>
+              <br>
+              <label for="passWord">Password<span style="color: red;">*</span></label>
+              <br>
+              <input class="inputBox" type="password" id="passWord" name="passWord" placeholder="Password" >
+              <br>
+              <br>
+              <label for="passWord">Password Confirm<span style="color: red;">*</span></label>
+              <br>
+              <input class="inputBox" type="password" id="passWordConfirm" name="passWordConfirm" placeholder="Must be same as above" >
+              <br>
+              <br>
+          </form>
+          <div class="modal-footer">
+            <button class="bttn-material-flat bttn-primary" id="key-setup-button">Save & Encrypt Keys</button>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="reload-modal" class="modal-wallet">
+        <div id="modal-content" class="modal-content">
+          <div class="modal-header">
+            <div class="section-header">
+              <h2>Settings Saved Successfully!</h2>
+              <p>You must reload the app now for them to fully take effect.</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="bttn-material-flat reloadWindow">OK, Reload Now</button>
+          </div>
+        </div>
+      </div>
+      
+
+      <script type="text/javascript">
+        require('./renderer-process/trades/context-menu')
+        require('./renderer-process/settings/setup')
+      </script>
+  
+    </section>
+  </template>
+  

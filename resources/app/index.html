@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/nativize.css">
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/about.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <link rel="stylesheet" href="assets/css/section.css">
+  <link rel="stylesheet" href="assets/css/demo.css">
+  <link rel="stylesheet" href="assets/css/github.css">
+  <link rel="stylesheet" href="assets/css/tokenList.css">
+  <link rel="stylesheet" href="assets/css/addTokenForm.css">
+  <link rel="stylesheet" href="assets/css/setup.css">
+  <link rel="stylesheet" href="assets/css/modal.css">
+  <link rel="stylesheet" href="assets/css/footer-wallet.css">
+  <link rel="stylesheet" href="assets/css/tableStyle.css">
+  <link rel="stylesheet" href="assets/css/activeTradesTable.css">
+  <link rel="stylesheet" href="assets/css/timer.css">
+  <link rel="stylesheet" href="assets/css/bttn.min.css">
+  <link rel="stylesheet" href="assets/css/notiBox.css">
+  <link rel="stylesheet" href="assets/css/slider.css">
+
+  <link rel="import" href="sections/about.html">
+  <link rel="import" href="sections/windows/windows.html">
+  <link rel="import" href="sections/windows/crash-hang.html">
+  <link rel="import" href="sections/trades/activeTrades.html">
+  <link rel="import" href="sections/trades/transactions.html">
+  <link rel="import" href="sections/trades/addTrades.html">
+  <link rel="import" href="sections/settings/setup.html">
+  <link rel="import" href="sections/settings/errors.html">
+  <link rel="import" href="sections/bot/mempoolScan.html">
+  <link rel="import" href="sections/bot/instantTrade.html">
+  <link rel="import" href="sections/trades/inactiveTrades.html">
+  <link rel="import" href="sections/native-ui/ex-links-file-manager.html">
+  <link rel="import" href="sections/native-ui/notifications.html">
+  <link rel="import" href="sections/native-ui/dialogs.html">
+  <link rel="import" href="sections/native-ui/tray.html">
+  <link rel="import" href="sections/native-ui/drag.html">
+  <link rel="import" href="sections/communication/ipc.html">
+  <link rel="import" href="sections/system/app-sys-information.html">
+  <link rel="import" href="sections/system/clipboard.html">
+  <link rel="import" href="sections/system/protocol-handler.html">
+  <link rel="import" href="sections/media/desktop-capturer.html">
+</head>
+<body>
+
+  
+
+  <nav class="nav js-nav">
+    <header class="nav-header">
+      <h1 class="nav-title"><strong>Trade</strong> Butler Bot</h1>
+      <img class="nav-header-icon" src="assets/img/top-hat-logo-color.svg" alt="logo">
+      v<span id="appVersion"></span>
+    </header>
+
+    <div id="scan-status-box" class="scan-status-box">
+      <h5 class="nav-category" style="text-align: center; padding-left: 0rem;">Trade Strategy Scan Status</h5>
+      <svg height="30" width="30" style="float: left;">
+        <circle id="status-circle" cx="15" cy="15" r="5" stroke="red" stroke-width="1" fill="none"/>
+      </svg>
+      <div id="status-circle-container" class="status-circle-container">
+        Not Running
+      </div>
+      <div><b>DEX:</b> <span id="lblDEX"></span></div>
+      
+      <div style="margin-left: 30px;"><b>NET:</b> <span id="lblNetwork"></span></div>
+    </div>
+
+    <div class="nav-item u-category-menu">
+      <h5 class="nav-category">
+        <svg class="nav-icon"><use xlink:href="assets/img/icons.svg#icon-menu"></use></svg>
+        Automated Trades
+      </h5>
+      <button type="button" id="button-active" data-section="activeTrades" class="nav-button"><em>Active</em> Scanning </button>
+      <button type="button" id="button-inactive" data-section="inactiveTrades" class="nav-button"><em>Trade</em> Strategies </button>
+      <button type="button" id="button-addTrade" data-section="addTrades" class="nav-button"><em>Add New</em> Trade Strategy</button>
+      <button type="button" id="button-transactions" data-section="transactions" class="nav-button"><em>Completed</em> Transactions </button>
+    </div>
+
+    <div class="nav-item u-category-menu">
+      <h5 class="nav-category">
+        <svg class="nav-icon"><use xlink:href="assets/img/icons.svg#icon-menu"></use></svg>
+        Instant Trade
+      </h5>
+      <button type="button" id="button-instant" data-section="instantTrades" class="nav-button"><em>Instant</em> Trade</button>
+    </div>
+
+    <div class="nav-item u-category-menu">
+      <h5 class="nav-category">
+        <img class="nav-icon" src="assets/img/programming.png" alt="logo">
+        Mempool - 3 LP+
+      </h5>
+      <button type="button" id="button-mempool" data-section="mempool" class="nav-button"><em>Mempool</em> Sniper</button>
+    </div>
+
+    <div class="nav-item u-category-menu">
+      <h5 class="nav-category">
+        <img class="nav-icon" src="assets/img/Windows_Settings_app_icon.png" alt="logo">
+        Settings
+      </h5>
+      <button type="button" id="button-setup" data-section="setup" class="nav-button"><em>Personal</em> Settings</button>
+      <button type="button" id="button-errors" data-section="errors" class="nav-button"><em>Error</em> Log</button>
+    </div>
+    
+    <footer id="wallet-footer" class="nav-footer">
+    </footer>
+  </nav>
+  <div id="notiBox-container" class="notiBox-container"></div>
+  <main class="content js-content">
+    
+  </main>
+
+  <script>
+    window.$ = window.jQuery = require('jquery');
+    require('./assets/imports')
+    require('./assets/ex-links')
+    require('./assets/nav')
+    require('./assets/notiBox')
+    require('./assets/footer-wallet')
+    require('./assets/demo-btns')
+    require('./assets/code-blocks')
+    require('./assets/normalize-shortcuts')
+    require('./renderer-process/trades/submit-trade')
+    require('./renderer-process/trades/inactiveTrades')
+    require('./renderer-process/trades/transactions')
+    require('./renderer-process/trades/activeTrades')
+    require('./renderer-process/settings/setup')
+    require('./renderer-process/settings/errors')
+  </script>
+</body>
+</html>

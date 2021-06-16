@@ -1,0 +1,50 @@
+.notiBox-container {
+    display: none;
+    position: fixed;
+    left: 350px;
+    right: 10px;
+    margin-top: 0.5rem;
+    z-index: 10;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+#alert {
+    display: block;
+}
+#alert .alert-flag {
+    display: none;
+}
+
+#alert-heading {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 20px;
+}
+
+#alert .alert-container {
+    display: block;
+    pointer-events: none;
+    position: relative;
+}
+#alert .alert-content {
+    border: 1px solid black;
+    background: lightblue;
+    display: flex;
+    align-items: center;
+}
+
+#alert .alert-close {
+    pointer-events: all;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 20px;
+    cursor: pointer;
+}

@@ -1,0 +1,3 @@
+Placeholder Readme Text for the bot
+
+As you can probably tell, not a lot has been done so far. I have mostly just been looking through how electron works and how I can use the api demo as a boilerplate for the bot. So far, I have changed the menu to show the Active Trades tabs. I have done some actual changes to addTrades.html as well as changed some folder names. As of pushing these files, I was working on a js file that would handle the information input by the user when clicking the submit button. That is in submit-trade.js (which should probably be renamed) inside the functions folder. Most of the html that is shown so far is located in the section/trades/ folder.
